@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Bot - Beitrag prüfen</title>
+    <style>
+        .post-container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .post-text {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+        .post-btn {
+            background-color: #0073b1;
+            color: white;
+        }
+        .skip-btn {
+            background-color: #aaa;
+            color: white;
+        }
+        #loader {
+            display: none;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0073b1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div id="loader"></div>
+    <div class="post-container">
+        <div class="post-header">
+            <img src="{{ post.profile_image }}" alt="Profilbild" class="profile-image">
+            <strong>Beitrag prüfen</strong>
+        </div>
+        <div class="post-text">
+            <p>{{ post.text }}</p>
+            {% if post.image != "Kein Bild gefunden" %}
+            <img src="{{ post.image }}" alt="Beitragsbild" style="max-width: 100%; margin-top: 10px;">
+            {% endif %}
+        </div>
+        <div class="actions">
+            <form method="post" action="/submit" onsubmit="showLoader()">
+                <button class="post-btn" type="submit" name="action" value="post">Posten</button>
+                <button class="skip-btn" type="submit" name="action" value="skip">Überspringen</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
